@@ -9,24 +9,24 @@ from selenium.webdriver.support import expected_conditions as EC
 def scrape_with_beautifulsoup(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
-    # ここでBeautiful Soupを使用してスクレイピングを行う
-    # 例: タイトルを取得
+    # Scraping using Beautiful Soup here
+    # Example: Get the title
     title = soup.title.string if soup.title else "No title found"
     return title
 
 def scrape_with_selenium(url):
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # ヘッドレスモードで実行
+    chrome_options.add_argument("--headless")  # Run in headless mode
     driver = webdriver.Chrome(options=chrome_options)
 
     try:
         driver.get(url)
-        # JavaScriptの実行を待つ
+        # Wait for JavaScript to execute
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.TAG_NAME, "body"))
         )
-        # ここでSeleniumを使用してスクレイピングを行う
-        # 例: タイトルを取得
+        # Scraping using Selenium here
+        # Example: Get the title
         title = driver.title
         return title
     finally:
@@ -38,7 +38,7 @@ def hybrid_scrape(url, needs_javascript=False):
     else:
         return scrape_with_beautifulsoup(url)
 
-# 使用例
+# Example usage
 static_url = "https://ja.wikipedia.org/wiki/Apple"
 dynamic_url = "https://shotach.com/posts/dht-nc"
 
